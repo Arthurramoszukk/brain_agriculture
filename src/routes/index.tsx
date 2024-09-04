@@ -4,10 +4,21 @@ import RouteManager from './RouteManager';
 import routers from './routers';
 
 function MountedRouter() {
-  console.log(routers)
   
-  return (
-    <RouteManager />
+  return (    
+    <RouteManager>
+      {routers.map((route, index) => (
+        <Route
+        key={index}
+        path={route.path}
+        exact
+        render={(props) => {
+          const Component = route.component;
+          return <Component {...props} />;
+        }}
+      />
+      ))}
+    </RouteManager>
   );
 }
 

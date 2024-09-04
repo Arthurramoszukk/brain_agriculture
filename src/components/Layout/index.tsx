@@ -1,5 +1,6 @@
 import React, { ReactNode, useState } from 'react';
 import { Grid } from "@mui/material";
+import Topbar from '../Topbar';
 import SidebarMenu from '../SidebarMenu';
 import { Content } from '../Content';
 

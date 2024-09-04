@@ -3,7 +3,12 @@ import mainView from '../features/MainView/routes'
 import dashboardRoutes from '../features/Dashboard/routes';
 import entryFarmsRoutes from '../features/EntryFarms/routes';
 
-const routers = [
+type RouteConfig = {
+  path: string;
+  component: React.ComponentType<any>; // Ajuste o tipo se necessário
+};
+
+const routers: RouteConfig[] = [
   ...mainView(),
   ...dashboardRoutes(),
   ...entryFarmsRoutes(),

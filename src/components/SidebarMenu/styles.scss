@@ -1,5 +1,126 @@
 .sidebar-menu {
     
   width: 80px;
+  height: 100vh; 
   z-index: 621;
+  top: 0;
+  background-color: #555;
+
+  .main-menu {
+
+      position: relative;
+      text-align: center;
+      width: 60px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: auto;
+      margin-bottom: 15px;
+      font-size: 25px;
+
+      svg {
+          width: 50px;
+          height: 50px;
+
+          path,
+          polygon,
+          ellipse,
+          circle {
+              fill: #41AEAA;
+          }
+      }
+
+      &.active {
+          &::after {
+              content: "";
+              width: 0;
+              height: 0;
+              border-top: 8px solid transparent;
+              border-bottom: 8px solid transparent;
+              border-right: 8px solid #F2F3F5;
+              right: -10px;
+              top: 23px;
+              position: absolute;
+          }
+      }
+
+      &.current {
+          background: #0a9792c7;
+
+          svg {
+
+              path,
+              polygon,
+              ellipse,
+              circle {
+                  fill: white;
+              }
+          }
+      }
+  }
+
+  .submenu-box {
+      overflow: auto;
+      z-index: 621;
+      position: absolute;
+      width: 230px;
+      height: 300px;
+      left: 80px;
+      top: 70px;
+      height: calc(100vh - 70px);
+      box-shadow: 10px 0 8px -5px rgba(0, 0, 0, 0.1);
+
+      h4 {
+          display: block;
+          text-align: center;
+          padding: 25px 0px;
+          border-bottom: 1px solid #ddd;
+          font-size: 19px;
+          margin: 0px;
+
+          svg {
+              width: 30px;
+              height: 30px;
+              fill: rgb(10, 151, 147);
+              vertical-align: text-bottom;
+              margin-right: 5px;
+          }
+      }
+
+      .first-level-link {
+          color: #555;
+          padding: 18px 20px;
+          display: block;
+          border-bottom: 1px solid #ddd;
+          position: relative;
+          text-decoration: none;
+          cursor: pointer;
+
+          &:hover {
+              text-decoration: none;
+              color: rgb(10, 151, 147);
+          }
+
+          &.has-sub-menu {
+              i.fa-angle-down {
+                  position: absolute;
+                  right: 25px;
+                  top: 20px;
+                  -webkit-transition: all 0.4s ease-in-out;
+                  transition: all 0.4s ease-in-out;
+              }
+
+              &:not(.collapsed) {
+                  i.fa-angle-down {
+                      -webkit-transition: all 0.4s ease-in-out;
+                      transition: all 0.4s ease-in-out;
+                      transform: rotate(180deg);
+                  }
+              }
+          }
+      }
+  }
+
 }
