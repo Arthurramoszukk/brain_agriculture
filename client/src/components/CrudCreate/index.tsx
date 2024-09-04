@@ -39,6 +39,24 @@ export default function CrudCreate({model, fields, register, handleSubmit, contr
 
   const onSubmit:SubmitHandler<any> = async (params) => {
     console.log(params)
+    setLoading(1);
+  
+    try {
+      await fetch('http://localhost:3001/data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(params),
+      });
+      setLoading(0);
+      alert(messageSuccess);
+      if (afterSave) afterSave(params);
+      setTimeout(() => history.push(`/${model}`), 1000);
+    } catch (error) {
+      console.error('Error:', error);
+      setLoading(0);
+    }
   }
 
   return(

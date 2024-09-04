@@ -1,0 +1,17 @@
+[
+  {
+    "CPF ou CNPJ": "111.627.774-35",
+    "Nome do produtor": "Arthur",
+    "Nome da Fazenda": "acer",
+    "Estato": "26",
+    "Cidade": "Água Preta",
+    "Culturas plantadas": [
+      1,
+      4
+    ],
+    "Área total da Fazendasdasdsa em ha": 4,
+    "Área de agricultura em ha": 0,
+    "Área de vegetação em ha": 0,
+    "id": 1
+  }
+]
