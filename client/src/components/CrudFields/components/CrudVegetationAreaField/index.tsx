@@ -25,12 +25,12 @@ export default function CrudVegetationAreaField({ control, name, value, onChange
               type='number'
               fullWidth
               margin='normal'
+              defaultValue={value}
               onChange={(e) => {
                 const newValue = parseFloat(e.target.value) || 0;
                 onChange(newValue);
                 field.onChange(newValue);
               }}
-              value={value}
             />
           )}
         />

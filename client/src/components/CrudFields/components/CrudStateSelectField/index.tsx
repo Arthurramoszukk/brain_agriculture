@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { MenuItem, Select, FormControl, InputLabel, Grid, SelectChangeEvent } from '@mui/material';
 import locationsData from '../../../../utils/locations.json';
 
@@ -15,37 +15,38 @@ interface StateSelectFieldProps {
   readonly onStateChange: (state: string) => void;
 }
 
-export default function CrudStateSelectField({ control, setValue, nameState, onStateChange }: StateSelectFieldProps) {
+export default function CrudStateSelectField({ control, setValue,nameState, onStateChange }: StateSelectFieldProps) {
   const [states, setStates] = useState<State[]>([]);
+  const selectedState = useWatch({ name: nameState, control });
 
   const listStates = [
-    {id: 12, name: "Acre"},
-    {id: 27, name: "Alagoas"},
-    {id: 16, name: "Amapá"},
-    {id: 13, name: "Amazonas"},
-    {id: 29, name: "Bahia"},
-    {id: 23, name: "Ceará"},
-    {id: 53, name: "Distrito Federal"},
-    {id: 32, name: "Espírito Santo"},
-    {id: 52, name: "Goiás"},
-    {id: 21, name: "Maranhão"},
-    {id: 51, name: "Mato Grosso"},
-    {id: 50, name: "Mato Grosso do Sul"},
-    {id: 31, name: "Minas Gerais"},
-    {id: 15, name: "Pará"},
-    {id: 25, name: "Paraíba"},
-    {id: 41, name: "Paraná"},
-    {id: 26, name: "Pernambuco"},
-    {id: 22, name: "Piauí"},
-    {id: 33, name: "Rio de Janeiro"},
-    {id: 24, name: "Rio Grande do Norte"},
-    {id: 43, name: "Rio Grande do Sul"},
-    {id: 11, name: "Rondônia"},
-    {id: 14, name: "Roraima"},
-    {id: 42, name: "Santa Catarina"},
-    {id: 35, name: "São Paulo"},
-    {id: 28, name: "Sergipe"},
-    {id: 17, name: "Tocantins"}
+    { id: 12, name: "Acre" },
+    { id: 27, name: "Alagoas" },
+    { id: 16, name: "Amapá" },
+    { id: 13, name: "Amazonas" },
+    { id: 29, name: "Bahia" },
+    { id: 23, name: "Ceará" },
+    { id: 53, name: "Distrito Federal" },
+    { id: 32, name: "Espírito Santo" },
+    { id: 52, name: "Goiás" },
+    { id: 21, name: "Maranhão" },
+    { id: 51, name: "Mato Grosso" },
+    { id: 50, name: "Mato Grosso do Sul" },
+    { id: 31, name: "Minas Gerais" },
+    { id: 15, name: "Pará" },
+    { id: 25, name: "Paraíba" },
+    { id: 41, name: "Paraná" },
+    { id: 26, name: "Pernambuco" },
+    { id: 22, name: "Piauí" },
+    { id: 33, name: "Rio de Janeiro" },
+    { id: 24, name: "Rio Grande do Norte" },
+    { id: 43, name: "Rio Grande do Sul" },
+    { id: 11, name: "Rondônia" },
+    { id: 14, name: "Roraima" },
+    { id: 42, name: "Santa Catarina" },
+    { id: 35, name: "São Paulo" },
+    { id: 28, name: "Sergipe" },
+    { id: 17, name: "Tocantins" }
   ];
 
   useEffect(() => {
@@ -70,11 +71,13 @@ export default function CrudStateSelectField({ control, setValue, nameState, onS
       <Controller
         name={nameState}
         control={control}
+        defaultValue={selectedState || ''}
         render={({ field }) => (
           <FormControl fullWidth>
             <InputLabel>Estado</InputLabel>
             <Select
               {...field}
+              value={selectedState || ''}
               onChange={(event) => {
                 handleStateChange(event as SelectChangeEvent<string>);
                 field.onChange(event);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Controller } from 'react-hook-form';
+import { Controller, useWatch } from 'react-hook-form';
 import { MenuItem, Select, FormControl, InputLabel, Grid, SelectChangeEvent } from '@mui/material';
 import locationsData from '../../../../utils/locations.json';
 
@@ -18,18 +18,24 @@ interface CitySelectFieldProps {
 
 export default function CrudCitySelectField({ control, setValue, nameCity, selectedState }: CitySelectFieldProps) {
   const [cities, setCities] = useState<City[]>([]);
-  const [selectedCity, setSelectedCity] = useState<string>('');
+  const currentCity = useWatch({ name: nameCity, control });
 
   useEffect(() => {
     const data = locationsData;
     setCities(data.cities);
   }, []);
 
+  useEffect(() => {
+    if (selectedState && cities.length > 0) {
+      const defaultCity = cities.find(city => city.state_id.toString() === selectedState)?.name || '';
+      setValue(nameCity, defaultCity);
+    }
+  }, [selectedState, cities, nameCity, setValue]);
+
   const filteredCities = cities.filter(city => city.state_id.toString() === selectedState);
 
   const handleCityChange = (event: SelectChangeEvent<string>) => {
     const city = event.target.value as string;
-    setSelectedCity(city);
     setValue(nameCity, city);
   };
 
@@ -38,12 +44,13 @@ export default function CrudCitySelectField({ control, setValue, nameCity, selec
       <Controller
         name={nameCity}
         control={control}
+        defaultValue={currentCity || ''}
         render={({ field }) => (
           <FormControl fullWidth>
             <InputLabel>Cidade</InputLabel>
             <Select
               {...field}
-              value={selectedCity}
+              value={currentCity || ''}
               onChange={(event) => {
                 handleCityChange(event as SelectChangeEvent<string>);
                 field.onChange(event);

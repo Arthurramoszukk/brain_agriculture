@@ -23,12 +23,12 @@ export default function CrudAgricultureAreaField({ control, name, value, onChang
             type='number'
             fullWidth
             margin='normal'
+            defaultValue={value}
             onChange={(e) => {
               const newValue = parseFloat(e.target.value) || 0;
               onChange(newValue);
               field.onChange(newValue);
             }}
-            value={value}
           />
         )}
       />
