@@ -1,17 +1,44 @@
 [
   {
     "CPF ou CNPJ": "111.627.774-35",
-    "Nome do produtor": "Arthur",
-    "Nome da Fazenda": "acer",
-    "Estato": "26",
-    "Cidade": "Água Preta",
+    "Nome do produtor": "Tamires",
+    "Nome da Fazenda": "Alegria",
+    "Cidade": "Abaré",
     "Culturas plantadas": [
-      1,
-      4
+      5
     ],
-    "Área total da Fazendasdasdsa em ha": 4,
+    "Área total da Fazenda em ha": 5,
+    "Área de agricultura em ha": 2,
+    "Área de vegetação em ha": 0,
+    "id": 1,
+    "Estado": "Bahia"
+  },
+  {
+    "CPF ou CNPJ": "11162777435",
+    "Nome do produtor": "Arthur",
+    "Nome da Fazenda": "acer2",
+    "Cidade": "Arapiraca",
+    "Culturas plantadas": [
+      3
+    ],
+    "Área total da Fazenda em ha": 0,
     "Área de agricultura em ha": 0,
     "Área de vegetação em ha": 0,
-    "id": 1
+    "id": 2,
+    "Estado": "Alagoas"
+  },
+  {
+    "CPF ou CNPJ": "41231234123",
+    "Nome do produtor": "Alf",
+    "Nome da Fazenda": "de",
+    "Cidade": "Anapu",
+    "Culturas plantadas": [
+      2
+    ],
+    "Área total da Fazenda em ha": 2,
+    "Área de agricultura em ha": 0,
+    "Área de vegetação em ha": 0,
+    "id": 3,
+    "Estado": "Pará"
   }
 ]

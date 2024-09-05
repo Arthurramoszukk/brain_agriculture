@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useHookstate } from '@hookstate/core';
 import { useHistory } from 'react-router-dom';
-import { Typography } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import { Typography, Button } from '@mui/material';
+import { DataGrid, GridRenderCellParams  } from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import Visibility from '@mui/icons-material/Visibility';
 import Layout from '../Layout';
 import InternalHeader from '../Layout/components/InternalHeader';
 import InternalContent from '../Layout/components/InternalContent';
 import ButtonRound from '../RoundButton';
+import { ConfirmDialog } from '../ConfirmDialog';
 
 interface ICrudIndex {
   readonly model: string,
@@ -21,33 +26,94 @@ type AliasLabelProps = {
   readonly label: string;
 }
 
-const columns = [
-  { field: 'id', headerName: 'ID', width: 90 },
-  { field: 'firstName', headerName: 'First name', width: 150 },
-  { field: 'lastName', headerName: 'Last name', width: 150 },
-  { field: 'age', headerName: 'Age', type: 'number', width: 110 },
-  { field: 'fullName', headerName: 'Full name', description: 'This column has a value getter.', width: 160, 
-    valueGetter: (params: any) => `${params.row.firstName || ''} ${params.row.lastName || ''}`, 
-  },
-];
-
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-];
-
 export default function CrudIndex({ model, title } : ICrudIndex) {
   const history = useHistory();
+  const [rows, setRows] = useState<Array<any>>([]);
+  const [rowId, setRowId] = useState<any>();
+  const openDialog = useHookstate(false);
+
+  const columns = [
+    { field: 'id', headerName: 'ID', flex: 0.05 },
+    { field: 'Nome da Fazenda', headerName: 'Fazenda', flex: 0.40 },
+    { field: 'Nome do produtor', headerName: 'Produtor', flex: 0.35 },
+    { field: 'Área total da Fazendasdasdsa em ha', headerName: 'Área Total', flex: 0.15 },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Ações',
+      flex: 0.1,
+      renderCell: (params: GridRenderCellParams ) => (
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <Button
+            color="primary"
+            onClick={() => handleEdit(params.row.id)}
+          >
+            <EditIcon />
+          </Button>
+          <Button
+            color="error"
+            onClick={() => handleDelete(params.row.id)}
+          >
+            <DeleteIcon />
+          </Button>
+        </div>
+      ),
+    }
+  ];
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/data');
+        if (!response.ok) {
+          throw new Error('Erro de conexão!');
+        }
+        const data = await response.json();
+        setRows(data);
+      } catch (error) {
+        console.error('Erro:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleCreateClick = () => {
     history.push(`/${model}/create`);
-  }
+  };
+
+  function handleEdit(id: number) {
+    history.push(`/${model}/edit/${id}`)
+  };
+
+  function handleDelete(id: number) {
+    handleDialogOpen();
+    setRowId(id);
+  };
+
+  const handleDialogOpen = () => {
+    openDialog.set(true)
+  };
+
+  const handleDialogClose = () => {
+    openDialog.set(false)
+  };
+
+  const handleDialogCloseFunction = async () => {
+    if (rowId === undefined) return;
+    try {
+      const response = await fetch(`http://localhost:3001/data/${rowId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Erro de conexão!');
+      }
+      setRows(rows.filter(row => row.id !== rowId));
+      handleDialogClose();
+    } catch (error) {
+      console.error('Erro ao deletar arquivo:', error);
+    }
+  };
 
   return (
     <Layout marginLayout={true}>
@@ -65,8 +131,8 @@ export default function CrudIndex({ model, title } : ICrudIndex) {
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
-            checkboxSelection
           />
+          <ConfirmDialog handleAgree={handleDialogCloseFunction} handleClose={handleDialogClose} open={openDialog} title={'Confirmar'} content={'Confirmar remoção?'} /> 
         </div>
       </InternalContent>
     </Layout>

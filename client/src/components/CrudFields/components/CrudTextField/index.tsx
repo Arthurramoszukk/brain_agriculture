@@ -13,8 +13,7 @@ interface CrudTextFieldProps {
   readonly placeholder?: string;
 }
 
-export default function CrudTextField(props: CrudTextFieldProps) {
-  const { register, model, mask, getValues, passwd = false, control, placeholder } = props;
+export default function CrudTextField({ register, model, mask, getValues, passwd = false, control, placeholder } : CrudTextFieldProps) {
   const registeredModelFormField = register(model);
   
   return (
@@ -48,16 +47,25 @@ export default function CrudTextField(props: CrudTextFieldProps) {
           }
         />
         :
-        <TextField
+        <Controller
           {...registeredModelFormField }
-          label={model}
-          margin='normal'
-          fullWidth
-          type={passwd ? 'password' : 'text'}
+          name={model}
+          control={control}
           defaultValue={(getValues && getValues( model )) ?? ''}
-          sx={{ mt: 0 }}
-          InputLabelProps={{
-            shrink: (getValues && !getValues( model )),
+          render={(props) => {
+            return (
+              <TextField
+                {...props.field}
+                label={model}
+                margin='normal'
+                fullWidth
+                type={passwd ? 'password' : 'text'}
+                sx={{ mt: 0 }}
+                InputLabelProps={{
+                  shrink: (getValues && !getValues( model )),
+                }}
+              />
+            )
           }}
         />
       }

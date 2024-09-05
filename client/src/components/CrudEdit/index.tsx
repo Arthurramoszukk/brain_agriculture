@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { SubmitHandler, UseFormRegister, UseFormSetValue } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { SubmitHandler, UseFormRegister, UseFormSetValue, UseFormGetValues } from 'react-hook-form';
+import { useHistory, useParams } from 'react-router-dom';
 import { CardActions, Grid, TextField } from '@mui/material';
-import CrudFields from '../CrudFields';
 import LoopIcon from '@mui/icons-material/Loop';
+import CrudFields from '../CrudFields';
+import ICrudEditParams from './interfaces/ICrudEditParams';
 import Layout from '../Layout';
 import InternalHeader from '../Layout/components/InternalHeader';
 import InternalContent from '../Layout/components/InternalContent';
@@ -12,12 +13,12 @@ import ButtonForm from '../ButtonForm';
 interface ICreateField {
   readonly name: string,
   readonly type: string,
-  readonly simple?: boolean,
+  readonly mask?: string,
   readonly model?: string,
   readonly placeholder?: string
 }
 
-interface CrudCreateProps {
+interface CrudEditProps {
   readonly model: string,
   readonly fields: ICreateField[],
   readonly register: UseFormRegister<any>,
@@ -26,12 +27,36 @@ interface CrudCreateProps {
   readonly messageSuccess: string,
   readonly title: string,
   readonly setFormValue: UseFormSetValue<any>,
-  readonly afterSave?: (params: any) => void,
+  readonly getValues: UseFormGetValues<any>
 }
 
-export default function CrudCreate({model, fields, register, handleSubmit, control, messageSuccess, title, setFormValue, afterSave}: CrudCreateProps) {
+export default function CrudEdit({model, fields, register, handleSubmit, control, messageSuccess, title, setFormValue, getValues}: CrudEditProps) {
   const history = useHistory();
+  const { id } = useParams<ICrudEditParams>();
   const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`http://localhost:3001/data/${id}`);
+        if (!response.ok) {
+          throw new Error('Erro de conexão!');
+        }
+
+        const data = await response.json();
+        fields.forEach((params) =>{
+          setFormValue(params.name, data[params.name]);
+        })
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id, fields, setFormValue]);
 
   const handleCancelButton = () => {
     history.push(`/${model}`);
@@ -39,20 +64,24 @@ export default function CrudCreate({model, fields, register, handleSubmit, contr
 
   const onSubmit:SubmitHandler<any> = async (params) => {
     setLoading(true);
-  
+
     try {
-      await fetch('http://localhost:3001/data', {
-        method: 'POST',
+      const response = await fetch(`http://localhost:3001/data/${id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(params),
       });
-      alert(messageSuccess);
-      if (afterSave) afterSave(params);
+
+      if (!response.ok) {
+        throw new Error('Erro ao atualizar os dados.');
+      }
+
+      alert('Dados atualizados com sucesso!');
       setTimeout(() => history.push(`/${model}`), 1000);
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Erro ao atualizar os dados:', error);
     } finally {
       setLoading(false);
     }
@@ -75,7 +104,7 @@ export default function CrudCreate({model, fields, register, handleSubmit, contr
               </ButtonForm>
               <ButtonForm type='submit'>
                 <LoopIcon className='load-icon' sx={{ display: loading ? 'block' : 'none'}} />
-                { loading ? 'Salvando' : 'Salvar' }
+                { loading ? 'Atualizando' : 'Atualizar' }
               </ButtonForm>
             </CardActions>
           

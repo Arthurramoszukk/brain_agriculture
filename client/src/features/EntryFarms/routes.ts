@@ -7,7 +7,7 @@ const EntryFarmsRoutes = () => {
   return [
     {path: '/entry-farms', component: Index},
     {path: '/entry-farms/create', component: Create},
-    {path: '/entry-farms/:id', component: Edit},
+    {path: '/entry-farms/edit/:id', component: Edit},
   ];
 }
 

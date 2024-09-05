@@ -1,3 +1,6 @@
+# Para rodar localmente
+Para excutar localmente com os dados mockados é necessário abrir dois prompts: um executanto o comando "npm start" no diretório de client e outro no diretório server
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
