@@ -89,31 +89,46 @@ export default function Dashboard() {
     <Layout marginLayout={true}>
       <InternalHeader title={'Dashboard'} />
       <div style={{ height: 600, width: '100%' }}>
-        <Grid container spacing={2}>
-          <Card sx={{ boxShadow: 4, margin: 2 }}>
-            <CardContent>
-              <Grid item xs={12}>
+        <Grid container>
+          <Grid item xs={12} sm={6} md={3}>
+            <Card sx={{ boxShadow: 4, margin: 2 }}>
+              <CardContent>
+                <Typography variant="h6">Total de Fazendas</Typography>
+                <Typography variant="h4">{data.length}</Typography>
+              </CardContent>
+            </Card>
+            <Card sx={{ boxShadow: 4, margin: 2 }}>
+              <CardContent>
+                <Typography variant="h6">Total em Hectares</Typography>
+                <Typography variant="h4">{totalArea}</Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Card sx={{ boxShadow: 4, margin: 2 }}>
+              <CardContent>
                 <Typography variant="h6">Total de Fazendas por Estado</Typography>
                 <Pie data={createPieChartData(statesLabels, statesData)} />
-              </Grid>
-            </CardContent>
-          </Card>
-          <Card sx={{ boxShadow: 4, margin: 2 }}>
-            <CardContent>
-              <Grid item xs={12}>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Card sx={{ boxShadow: 4, margin: 2 }}>
+              <CardContent>
                 <Typography variant="h6">Total de Fazendas por Cultura</Typography>
                 <Pie data={createPieChartData(culturesLabels, culturesData)} />
-              </Grid>
-            </CardContent>
-          </Card>
-          <Card sx={{ boxShadow: 4, margin: 2 }}>
-            <CardContent>
-              <Grid item xs={12}>
-                <Typography variant="h6">Área Total de Agricultura vs Vegetação</Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Card sx={{ boxShadow: 4, margin: 2 }}>
+              <CardContent>
+                <Typography variant="h6">Agricultura vs Vegetação</Typography>
                 <Pie data={createPieChartData(areaLabels, areaData)} />
-              </Grid>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
       </div>
     </Layout>

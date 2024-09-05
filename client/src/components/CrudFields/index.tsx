@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Control, UseFormGetValues, UseFormSetValue, UseFormRegister } from "react-hook-form/dist/types/form";
+import CrudValidateField from './components/CrudValidateField';
 import CrudTextField from './components/CrudTextField';
 import CrudMultiField from './components/CrudMultiField';
 import CrudStateSelectField from './components/CrudStateSelectField';
@@ -65,7 +66,9 @@ export default function CrudFields({ fields, register, control, getValues, setFo
   }
 
   function createFields(param: any, index: any) {
-    if (param.type == 'string') {
+    if (param.type == 'string' && param.name == 'CPF ou CNPJ') {
+      return <CrudValidateField key={index} getValues={ getValues } register={register} model={param.name} control={control} mask={param.mask} placeholder={param.placeholder} />
+    } else if (param.type == 'string') {
       return <CrudTextField key={index} getValues={ getValues } register={register} model={param.name} control={control} mask={param.mask} placeholder={param.placeholder} />
     } else if (param.type == 'select') {
       if (param.name == 'Estado') {
