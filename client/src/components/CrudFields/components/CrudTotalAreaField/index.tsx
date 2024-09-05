@@ -25,7 +25,6 @@ export default function CrudTotalAreaField({ control, model, value, onChange }: 
             margin='normal'
             defaultValue={value}
             onChange={(e) => {
-              console.log(value);
               const newValue = parseFloat(e.target.value) || 0;
               onChange(newValue);
             }}

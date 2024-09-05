@@ -25,7 +25,6 @@ export default function CrudFields({ fields, register, control, getValues, setFo
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
-    console.log("entrou", control)
     if (getValues) {
       const initialTotalArea = parseFloat(getValues('Área total da Fazenda em ha')) || 0;
       const initialAgricultureArea = parseFloat(getValues('Área de agricultura em ha')) || 0;
