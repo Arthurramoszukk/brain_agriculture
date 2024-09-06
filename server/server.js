@@ -23,7 +23,7 @@ function getNextId(data) {
 app.get('/data', (req, res) => {
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
-      return res.status(500).send('Error reading file');
+      return res.status(500).send('Erro de leitura');
     }
 
     res.send(data);
@@ -34,14 +34,14 @@ app.get('/data/:id', (req, res) => {
   const { id } = req.params;
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
-      return res.status(500).send('Error reading file');
+      return res.status(500).send('Erro de leitura');
     }
 
     const jsonData = JSON.parse(data);
     const item = jsonData.find(item => item.id === parseInt(id, 10));
 
     if (!item) {
-      return res.status(404).send('Item not found');
+      return res.status(404).send('Não encontrado');
     }
 
     res.send(item);
@@ -52,24 +52,24 @@ app.put('/data/:id', (req, res) => {
   const { id } = req.params;
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
-      return res.status(500).send('Error reading file');
+      return res.status(500).send('Erro de leitura');
     }
 
     let jsonData = JSON.parse(data);
     const index = jsonData.findIndex(item => item.id === parseInt(id, 10));
 
     if (index === -1) {
-      return res.status(404).send('Item not found');
+      return res.status(404).send('Não encontrado');
     }
 
     jsonData[index] = { ...jsonData[index], ...req.body };
 
     fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (err) => {
       if (err) {
-        return res.status(500).send('Error writing file');
+        return res.status(500).send('Erro de escrita');
       }
 
-      res.status(200).send('Data updated');
+      res.status(200).send('Dado atualizado');
     });
   });
 });
@@ -77,7 +77,7 @@ app.put('/data/:id', (req, res) => {
 app.post('/data', (req, res) => {
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
-      return res.status(500).send('Error reading file');
+      return res.status(500).send('Erro de leitura');
     }
 
     const jsonData = JSON.parse(data);
@@ -87,10 +87,10 @@ app.post('/data', (req, res) => {
 
     fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (err) => {
       if (err) {
-        return res.status(500).send('Error writing file');
+        return res.status(500).send('Erro de escrita');
       }
 
-      res.status(200).send('Data saved');
+      res.status(200).send('Dado salvo');
     });
   });
 });
@@ -99,7 +99,7 @@ app.delete('/data/:id', (req, res) => {
   const { id } = req.params;
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
-      return res.status(500).send('Error reading file');
+      return res.status(500).send('Erro de leitura');
     }
 
     let jsonData = JSON.parse(data);
@@ -107,14 +107,14 @@ app.delete('/data/:id', (req, res) => {
 
     fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (err) => {
       if (err) {
-        return res.status(500).send('Error writing file');
+        return res.status(500).send('Erro de escrita');
       }
 
-      res.status(200).send('Data deleted');
+      res.status(200).send('Dado deletado');
     });
   });
 });
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}/`);
+  console.log(`Servidor rodando em http://localhost:${port}/`);
 });

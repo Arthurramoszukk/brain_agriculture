@@ -5,7 +5,7 @@ import entryFarmsRoutes from '../features/EntryFarms/routes';
 
 type RouteConfig = {
   path: string;
-  component: React.ComponentType<any>; // Ajuste o tipo se necessário
+  component: React.ComponentType<any>;
 };
 
 const routers: RouteConfig[] = [

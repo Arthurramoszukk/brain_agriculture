@@ -13,9 +13,7 @@ import ButtonForm from '../ButtonForm';
 interface ICreateField {
   readonly name: string,
   readonly type: string,
-  readonly mask?: string,
   readonly model?: string,
-  readonly placeholder?: string
 }
 
 interface CrudEditProps {

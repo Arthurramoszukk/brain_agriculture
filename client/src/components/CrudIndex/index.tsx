@@ -6,7 +6,6 @@ import { DataGrid, GridRenderCellParams  } from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import Visibility from '@mui/icons-material/Visibility';
 import Layout from '../Layout';
 import InternalHeader from '../Layout/components/InternalHeader';
 import InternalContent from '../Layout/components/InternalContent';

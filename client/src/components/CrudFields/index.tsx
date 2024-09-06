@@ -66,9 +66,9 @@ export default function CrudFields({ fields, register, control, getValues, setFo
 
   function createFields(param: any, index: any) {
     if (param.type == 'string' && param.name == 'CPF ou CNPJ') {
-      return <CrudValidateField key={index} getValues={ getValues } register={register} model={param.name} control={control} mask={param.mask} placeholder={param.placeholder} />
+      return <CrudValidateField key={index} getValues={ getValues } register={register} model={param.name} control={control} />
     } else if (param.type == 'string') {
-      return <CrudTextField key={index} getValues={ getValues } register={register} model={param.name} control={control} mask={param.mask} placeholder={param.placeholder} />
+      return <CrudTextField key={index} getValues={ getValues } register={register} model={param.name} control={control} />
     } else if (param.type == 'select') {
       if (param.name == 'Estado') {
         return <CrudStateSelectField key={index} control={control} setValue={setFormValue} nameState={param.name} onStateChange={setSelectedState} />

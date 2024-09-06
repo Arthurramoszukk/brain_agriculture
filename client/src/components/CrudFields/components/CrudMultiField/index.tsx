@@ -46,10 +46,10 @@ export default function CrudMultiField(props: CrudMultiFieldProps) {
             getOptionLabel={(option) => option.label}
             isOptionEqualToValue={(option, value) => option.value === value.value}
             onChange={(event, newValue) => {
-              field.onChange(newValue.map(item => item.value)); // Atualiza o campo com os valores selecionados
-              setSelectedItems(newValue); // Atualiza o estado local com os itens selecionados
+              field.onChange(newValue.map(item => item.value));
+              setSelectedItems(newValue);
             }}
-            value={listOptions.filter(option => field.value.includes(option.value))} // Filtra as opções selecionadas
+            value={listOptions.filter(option => field.value.includes(option.value))}
             renderInput={(params) => (
               <TextField
                 {...params}
